@@ -1,0 +1,828 @@
+PROJECT REPORT — PROTOTYPE 1
+NYAYAVAULT
+Secure Digital Document Management System for Legal and Investigation Documents
+SIH Problem Statement
+
+SIH26190 — Software Edition: Blockchain & Cybersecurity Challenge #190
+
+Sponsoring Organization
+
+Ministry of Home Affairs
+
+Department
+
+National Crime Records Bureau (NCRB) — Women Safety Division
+
+Domain
+
+Blockchain & Cybersecurity
+
+Project Type
+
+Final Year Project + SIH Prototype
+
+Prototype Version
+
+Prototype 1.0
+
+1. Abstract
+
+Legal, law-enforcement, and investigation departments handle large volumes of sensitive documents including First Information Reports (FIRs), investigation reports, witness statements, forensic reports, charge sheets, evidence records, court documents, legal notices, and judgments.
+
+Traditional paper-based systems and fragmented digital storage can create difficulties related to document retrieval, unauthorized access, document modification, version management, collaboration, and auditability.
+
+NyayaVault is proposed as a secure, centralized and role-based digital document management platform designed for legal and investigation workflows.
+
+Prototype 1 focuses on establishing the foundation of the system through:
+
+Secure authentication
+Role-based access control
+Case management
+FIR management
+Secure document storage
+Cryptographic document hashing
+Document integrity verification
+Audit logging
+Role-specific dashboards
+Police-station/FIR integration simulation
+
+The prototype uses Supabase Authentication, PostgreSQL and Storage as the initial cloud infrastructure and is designed for deployment using Vercel.
+
+Blockchain functionality is represented in Prototype 1 through an integrity-record abstraction/mock ledger so that the complete workflow can be demonstrated without requiring a production blockchain network. A future version will integrate a permissioned blockchain such as Hyperledger Fabric.
+
+2. Introduction
+
+Law enforcement and legal organizations generate and process highly sensitive information throughout the lifecycle of a case.
+
+A single investigation may involve:
+
+FIR
+ ↓
+Investigation Reports
+ ↓
+Witness Statements
+ ↓
+Evidence Records
+ ↓
+Forensic Reports
+ ↓
+Charge Sheet
+ ↓
+Court Filings
+ ↓
+Judgment
+ ↓
+Archival
+
+When these documents are stored across physical files, local computers, emails, messaging platforms or disconnected systems, maintaining integrity and controlled accessibility becomes difficult.
+
+NyayaVault addresses this problem by introducing a case-centric digital document management architecture.
+
+Instead of treating documents as isolated files, the system associates them with:
+
+A case
+An authorized user
+A document version
+A cryptographic hash
+An access policy
+An audit trail
+An integrity record
+3. Problem Statement
+
+Law enforcement agencies, courts, legal departments and investigation organizations require secure management of sensitive documents.
+
+Existing approaches can result in:
+
+Difficulty locating documents.
+Unauthorized access.
+Risk of document tampering.
+Lack of reliable version control.
+Fragmented information.
+Inefficient collaboration.
+Limited auditability.
+Difficulty verifying document integrity.
+Manual handling of FIR and case information.
+Lack of centralized case-level document management.
+
+A secure digital platform is therefore required to manage documents throughout their lifecycle while maintaining confidentiality, integrity, availability and accountability.
+
+4. Proposed Solution
+
+NyayaVault provides a centralized, case-centric digital platform.
+
+The primary workflow is:
+
+Authorized User
+      ↓
+Authentication
+      ↓
+Role Verification
+      ↓
+Case Management
+      ↓
+FIR / Document Import
+      ↓
+Document Upload
+      ↓
+SHA-256 Hash Generation
+      ↓
+Secure Storage
+      ↓
+Integrity Record
+      ↓
+Verification
+      ↓
+Audit Log
+
+The system supports different stakeholders through role-specific dashboards.
+
+5. Main Objectives
+5.1 Primary Objectives
+Digitize investigation and legal documents.
+Centralize case-related information.
+Implement role-based access control.
+Provide secure document storage.
+Detect unauthorized document modifications.
+Maintain a complete audit trail.
+Enable document integrity verification.
+Provide role-specific dashboards.
+Establish a foundation for blockchain-based integrity verification.
+5.2 Secondary Objectives
+Provide simulated FIR integration.
+Establish a scalable architecture for future government API integration.
+Support document versioning.
+Prepare the architecture for digital signatures.
+Prepare the architecture for AI-based document processing.
+Provide a foundation for chain-of-custody management.
+6. Target Users
+
+Prototype 1 includes the following roles.
+
+Administrator
+
+Responsible for:
+
+User management
+Case monitoring
+Permissions
+System monitoring
+Audit logs
+Investigator / Police Officer
+
+Responsible for:
+
+FIR management
+Case management
+Document uploads
+Investigation records
+Document verification
+Legal Professional
+
+Responsible for:
+
+Accessing authorized cases
+Reviewing legal documents
+Verifying documents
+Viewing case information
+Forensic Officer
+
+Responsible for:
+
+Evidence records
+Forensic documents
+Investigation-related evidence
+Verification
+Court Officer
+
+Responsible for:
+
+Reviewing authorized case records
+Viewing legal documents
+Verification
+Case history
+7. Prototype 1 Scope
+
+The prototype deliberately focuses on the core functional vertical slice.
+
+Implemented
+Module	Prototype 1
+Authentication	✅
+Role-based access	✅
+Admin dashboard	✅
+Investigator dashboard	✅
+Legal dashboard	✅
+Forensic dashboard	✅
+Court dashboard	✅
+Case management	✅
+FIR management	✅
+FIR simulation/API	✅
+Document upload	✅
+Document metadata	✅
+SHA-256 hashing	✅
+Document verification	✅
+Audit logs	✅
+Supabase database	✅
+Supabase storage	✅
+Vercel deployment	✅
+Future versions
+Feature	Phase
+Permissioned blockchain	Prototype 2
+Digital signatures	Prototype 2
+Advanced OCR	Prototype 2
+AI classification	Prototype 2
+Semantic search	Prototype 3
+Real police API	Future
+NCRB integration	Future/authorized integration
+Evidence chain of custody	Prototype 2
+Advanced encryption/KMS	Production
+Advanced threat detection	Production
+8. System Architecture
+                         NYAYAVAULT
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │   Web Frontend   │
+                    │ Next.js / React  │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Authentication   │
+                    │   & RBAC Layer   │
+                    └────────┬─────────┘
+                             │
+            ┌────────────────┼────────────────┐
+            │                │                │
+            ▼                ▼                ▼
+      Case Management   Document Mgmt    User Management
+            │                │
+            │                ▼
+            │        ┌─────────────────┐
+            │        │ Integrity Engine│
+            │        │    SHA-256      │
+            │        └────────┬────────┘
+            │                 │
+            ▼                 ▼
+      ┌───────────┐    ┌──────────────┐
+      │ PostgreSQL│    │Secure Storage│
+      │ Supabase  │    │   Supabase   │
+      └───────────┘    └──────────────┘
+                             │
+                             ▼
+                     Integrity Record
+                     / Blockchain Layer
+                             │
+                             ▼
+                       Audit Logging
+9. Frontend Architecture
+
+The frontend is implemented using:
+
+Next.js
+
+with:
+
+TypeScript
+React
+Tailwind CSS
+Responsive UI
+Role-based routing
+Dashboard components
+
+Main routes:
+
+/login
+
+/admin
+/investigator
+/legal
+/forensic
+/court
+
+/cases
+/cases/[id]
+
+/documents
+/documents/[id]
+
+/fir
+/verification
+/audit
+10. Authentication
+
+Supabase Authentication is used for Prototype 1.
+
+Authentication workflow:
+
+User
+ ↓
+Login
+ ↓
+Supabase Auth
+ ↓
+Authenticated Session
+ ↓
+Retrieve User Profile
+ ↓
+Determine Role
+ ↓
+Role Dashboard
+
+Example:
+
+investigator@example.com
+        ↓
+role = investigator
+        ↓
+/investigator
+
+Unauthorized users should not be able to access role-restricted pages.
+
+11. Role-Based Access Control
+
+The system maintains a user role.
+
+Example:
+
+ADMIN
+INVESTIGATOR
+LEGAL
+FORENSIC
+COURT
+
+Permissions can be represented as:
+
+VIEW_CASE
+CREATE_CASE
+UPLOAD_DOCUMENT
+VERIFY_DOCUMENT
+VIEW_AUDIT
+MANAGE_USERS
+
+The frontend hides unavailable operations, while backend/database policies enforce authorization.
+
+12. Case Management
+
+Each investigation is represented by a unique Case ID.
+
+Example:
+
+CASE-2026-01842
+
+A case contains:
+
+Case Number
+Title
+FIR Number
+Police Station
+Case Type
+Status
+Assigned Officer
+Created Date
+Documents
+
+Example:
+
+CASE-2026-01842
+
+Theft Investigation
+FIR: FIR/2026/01842
+Police Station: Shivajinagar
+Status: Investigation
+Officer: INS-102
+13. FIR Integration
+
+One of the proposed improvements is a police-station integration layer.
+
+Prototype 1 does not claim access to a real police/NCRB database.
+
+Instead, a simulated FIR API is used.
+
+Workflow:
+
+Investigator
+      ↓
+Enter FIR Number
+      ↓
+Fetch FIR
+      ↓
+Simulated Police Station API
+      ↓
+FIR Details
+      ↓
+Import
+      ↓
+Create Case
+
+Example:
+
+FIR Number: FIR/2026/01842
+
+Police Station:
+Shivajinagar Police Station
+
+Date:
+18 September 2026
+
+Case Type:
+Theft
+
+Status:
+Investigation
+
+Future versions can replace the simulated API with an authorized integration.
+
+14. Document Management
+
+Documents are associated with a case.
+
+Supported prototype document categories include:
+
+FIR
+Investigation Report
+Witness Statement
+Forensic Report
+Evidence Record
+Charge Sheet
+Court Filing
+Legal Notice
+
+Each document has metadata such as:
+
+Document ID
+Case ID
+File Name
+Document Type
+Uploaded By
+Upload Time
+SHA-256 Hash
+Version
+Status
+Storage Path
+15. Document Integrity
+
+The prototype uses SHA-256 hashing.
+
+When a document is uploaded:
+
+Document
+   ↓
+SHA-256
+   ↓
+Unique Hash
+
+Example:
+
+Document Hash:
+
+9a2c7e83c8f1......8f31
+
+The hash is stored as part of the document integrity record.
+
+When verification occurs:
+
+Stored Hash
+      │
+      │ Compare
+      ▼
+Current Document Hash
+
+If:
+
+Stored Hash == Current Hash
+
+the document is considered unchanged relative to the registered integrity record.
+
+16. Blockchain Integration — Prototype 1
+
+Prototype 1 does not require a live blockchain network.
+
+Instead, the system contains a Blockchain Integration abstraction.
+
+The prototype records:
+
+Document ID
+Document Hash
+Version
+Action
+Timestamp
+User
+Transaction ID
+
+Example:
+
+Transaction:
+TX-2026-000184
+
+Document:
+DOC-98231
+
+Hash:
+9a2c7e...8f31
+
+Action:
+DOCUMENT_CREATED
+
+Timestamp:
+24-09-2026 10:45
+
+Future versions can replace the mock ledger with a permissioned blockchain.
+
+17. Audit Trail
+
+Every important action generates an audit record.
+
+Example:
+
+10:42  Officer 102   FIR_IMPORTED
+10:43  Officer 102   CASE_CREATED
+10:45  Officer 102   DOCUMENT_UPLOADED
+10:45  SYSTEM        HASH_GENERATED
+10:45  SYSTEM        INTEGRITY_RECORDED
+10:46  Officer 102   DOCUMENT_VERIFIED
+
+Audit events should contain:
+
+User
+Action
+Case
+Document
+Timestamp
+Metadata
+18. Dashboard Design
+Administrator
+
+Displays:
+
+Total users
+Total cases
+Total documents
+Security alerts
+Recent activities
+User management
+Audit logs
+Investigator
+
+Displays:
+
+Assigned cases
+Pending documents
+Verified documents
+FIR import
+Document upload
+Case management
+Verification
+Legal Professional
+
+Displays:
+
+Assigned cases
+Documents requiring review
+Verified documents
+Legal documents
+Case access
+Forensic Officer
+
+Displays:
+
+Evidence received
+Pending examinations
+Submitted reports
+Evidence records
+Court Officer
+
+Displays:
+
+Cases received
+Documents pending verification
+Finalized cases
+Authorized case records
+19. Prototype Demonstration Workflow
+
+The recommended demonstration is:
+
+LOGIN
+  ↓
+INVESTIGATOR DASHBOARD
+  ↓
+IMPORT FIR
+  ↓
+CREATE CASE
+  ↓
+OPEN CASE
+  ↓
+UPLOAD DOCUMENT
+  ↓
+GENERATE SHA-256
+  ↓
+STORE DOCUMENT
+  ↓
+CREATE INTEGRITY RECORD
+  ↓
+VERIFY DOCUMENT
+  ↓
+SHOW VERIFIED RESULT
+  ↓
+OPEN AUDIT LOG
+
+This demonstrates the project's central concept within a few minutes.
+
+20. Database Design
+
+Prototype 1 can use the following tables.
+
+users
+id
+name
+email
+role
+department
+created_at
+cases
+id
+case_number
+title
+fir_number
+police_station
+case_type
+status
+assigned_officer
+created_at
+documents
+id
+case_id
+name
+type
+storage_path
+sha256
+version
+status
+uploaded_by
+created_at
+audit_logs
+id
+user_id
+case_id
+document_id
+action
+metadata
+created_at
+integrity_records
+id
+document_id
+hash
+version
+transaction_id
+action
+created_at
+21. Security Measures
+
+Prototype 1 implements or prepares for:
+
+Authentication
+Role-based authorization
+Supabase Row Level Security
+Secure HTTPS deployment
+SHA-256 integrity checking
+Controlled document access
+Audit logging
+Session management
+Input validation
+File type restrictions
+File size restrictions
+
+Future production implementation should additionally include:
+
+Encryption key management
+Malware scanning
+Digital signatures
+MFA
+Hardware-backed key protection
+Advanced monitoring
+Permissioned blockchain
+Security testing
+22. Data Flow
+User
+ ↓
+Login
+ ↓
+Authentication
+ ↓
+Role Verification
+ ↓
+Dashboard
+ ↓
+Case
+ ↓
+Document
+ ↓
+Validation
+ ↓
+Hash Generation
+ ↓
+Secure Storage
+ ↓
+Integrity Record
+ ↓
+Audit Log
+23. Advantages
+
+The proposed system provides:
+
+Centralized document management.
+Role-based access.
+Case-centric organization.
+Document integrity verification.
+Auditability.
+Faster retrieval.
+Foundation for blockchain integration.
+Foundation for AI-based document processing.
+Scalable architecture.
+Separation between document storage and integrity verification.
+24. Limitations of Prototype 1
+
+The prototype intentionally has limitations.
+
+1. No real government integration
+
+The FIR service is simulated.
+
+2. No production blockchain
+
+Blockchain is represented by an integration abstraction/mock ledger.
+
+3. Limited AI
+
+Advanced OCR and semantic search are not part of Prototype 1.
+
+4. Prototype storage
+
+The storage architecture is suitable for demonstration but requires additional security controls for production deployment.
+
+5. No legal certification
+
+The prototype demonstrates technical integrity mechanisms and should not be represented as legally certified evidence-management infrastructure.
+
+25. Future Scope
+Phase 2
+Hyperledger Fabric integration
+Digital signatures
+Document versioning
+Evidence chain of custody
+OCR
+Advanced access permissions
+Phase 3
+AI document classification
+Named entity extraction
+Semantic search
+Automated metadata extraction
+Case summarization
+Phase 4
+Authorized police/FIR APIs
+Interdepartmental collaboration
+Court integration
+Forensic laboratory integration
+Phase 5
+Production security architecture
+Key management infrastructure
+Advanced monitoring
+Threat detection
+High-availability deployment
+26. Expected Outcome
+
+Prototype 1 is expected to demonstrate a functional foundation for a secure digital document management ecosystem.
+
+The prototype should successfully demonstrate:
+
+Authentication
+       ↓
+Role-based Dashboard
+       ↓
+FIR / Case Creation
+       ↓
+Document Upload
+       ↓
+SHA-256 Hash
+       ↓
+Secure Storage
+       ↓
+Integrity Record
+       ↓
+Verification
+       ↓
+Audit Trail
+27. Conclusion
+
+NyayaVault Prototype 1 establishes the foundation of a secure, centralized and case-centric digital document management platform.
+
+The architecture separates:
+
+User identity
+Authorization
+Case management
+Document storage
+Document integrity
+Auditability
+Future blockchain integration
+
+This allows the system to evolve from a working academic prototype into a more comprehensive secure platform supporting blockchain, AI, digital signatures, police-system integration and evidence lifecycle management.
